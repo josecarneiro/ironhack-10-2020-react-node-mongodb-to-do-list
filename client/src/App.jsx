@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 
-import { listTasks, createTask, deleteTask } from './services/to-do-list-api';
+import {
+  listTasks,
+  createTask,
+  deleteTask,
+  editTask
+} from './services/to-do-list-api';
 
 import TaskInput from './components/TaskInput';
 import TaskItem from './components/TaskItem';
@@ -36,6 +41,16 @@ export class App extends Component {
     });
   };
 
+  handleTaskEdit = async (id, title) => {
+    const task = await editTask(id, { title });
+    const tasks = this.state.tasks.map(item => {
+      return item._id === id ? task : item;
+    });
+    this.setState({
+      tasks: tasks
+    });
+  };
+
   render() {
     return (
       <div>
@@ -46,6 +61,7 @@ export class App extends Component {
               key={task._id}
               task={task}
               onRemoveTask={() => this.handleTaskRemoval(task._id)}
+              onTaskEdit={title => this.handleTaskEdit(task._id, title)}
             />
           ))}
         </ul>

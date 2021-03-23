@@ -14,6 +14,13 @@ export const createTask = async data => {
   return task;
 };
 
+export const editTask = async (id, data) => {
+  const response = await axios.patch(`http://localhost:3000/tasks/${id}`, data);
+  const body = response.data;
+  const task = body.task;
+  return task;
+};
+
 export const deleteTask = async id => {
   await axios.delete(`http://localhost:3000/tasks/${id}`);
 };
